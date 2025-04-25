@@ -85,7 +85,7 @@ Alemu Nenko
 
 Daniel Beltran
 
-Langara College, DS203 – April 2025
+Cornerstone College, DS203 – April 2025
 
 🔒 Git History & .gitignore
 This repository uses .gitignore to exclude:
