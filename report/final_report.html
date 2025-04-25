@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DS203 Final Project Report – Gaming Profiles Analysis</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f9f9f9; line-height: 1.6; }
+        h1, h2, h3 { color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table, th, td { border: 1px solid #ccc; }
+        th, td { padding: 10px; text-align: center; }
+        img { margin: 20px 0; max-width: 100%; height: auto; }
+        code { background-color: #f0f0f0; padding: 2px 6px; }
+    </style>
+</head>
+<body>
+
+<h1>DS 203 - Big Data Essentials</h1>
+<h2>Final Project Report</h2>
+
+<hr>
+
+<h3>Title: Analyzing Global Gaming Profiles and Player Behavior Across Platforms Using PySpark</h3>
+<p><strong>Group 4 Team Members:</strong> Alemu Nenko & Daniel Beltran<br>
+<strong>Date:</strong> April 2025</p>
+
+<hr>
+
+<h2>Abstract</h2>
+<p>This project investigates trends in gaming behavior across three major platforms: Steam, PlayStation, and Xbox. By analyzing structured datasets using PySpark, we extracted insights into player achievements, game genres, pricing, and user behavior. Our goal was to evaluate platform-specific player engagement patterns and their potential social or economic implications.</p>
+
+<hr>
+
+<h2>1. Problem Definition</h2>
+<p>The global gaming industry is diverse and expanding rapidly. Game developers, marketers, and platform managers seek to understand patterns in player behavior, popular genres, and user preferences across platforms. This study addresses the following key questions:</p>
+<ul>
+<li>How many games do users typically own or play per platform?</li>
+<li>Are there user segments with extremely high or low engagement?</li>
+<li>What are the pricing trends and regional influences?</li>
+</ul>
+
+<p><strong>Challenges:</strong> inconsistent schema formats across platforms, missing metadata (especially in Xbox), and computational overhead when processing large datasets.</p>
+
+<hr>
+
+<h2>2. Dataset Overview</h2>
+<p>We used structured gaming datasets from Kaggle representing three platforms:</p>
+<ul>
+<li><strong>Steam:</strong> Game reviews, purchases, achievements, and player metadata</li>
+<li><strong>PlayStation:</strong> Trophy/achievement data, player-country info, and pricing</li>
+<li><strong>Xbox:</strong> Achievement points, player libraries, and pricing per region</li>
+</ul>
+
+<p><strong>Source:</strong> Gaming Profiles 2025 Dataset – Steam, PlayStation, Xbox (Kaggle)</p>
+
+<hr>
+
+<h2>3. Methodology</h2>
+<p>We followed a PySpark-based ETL pipeline including importing, cleaning, joining, and aggregating datasets.</p>
+
+<h3>Visual Workflow:</h3>
+<img src="../images/workflow.png" alt="Workflow Diagram">
+
+<h3>Core Analytical Operations:</h3>
+<ul>
+<li><strong>Filtering</strong> – Players by region or game attributes</li>
+<li><strong>Column Creation</strong> – e.g., <code>num_games</code> using <code>split()</code> and <code>size()</code></li>
+<li><strong>Aggregations</strong> – Averages and maximums</li>
+<li><strong>Grouping</strong> – Regional grouping or synthetic IDs</li>
+<li><strong>Sorting</strong> – Ranking players or games</li>
+<li><strong>Joins</strong> – Combine datasets</li>
+<li><strong>Window Functions</strong> – Rank and group analysis</li>
+</ul>
+
+<hr>
+
+<h2>4. Key Findings</h2>
+
+<table>
+<tr>
+<th>Metric</th><th>Steam</th><th>PlayStation</th><th>Xbox</th><th>Interpretation</th>
+</tr>
+<tr>
+<td>Avg. Games/Player</td><td>239.85</td><td>233.86</td><td>272.63</td><td>Xbox leads (Game Pass impact)</td>
+</tr>
+<tr>
+<td>Max Games/Player</td><td>32,463</td><td>13,540</td><td>9,018</td><td>Steam dominates due to marketplace</td>
+</tr>
+<tr>
+<td>Top Country</td><td>US, Brazil</td><td>US, Brazil</td><td>N/A</td><td>US leads, Brazil strong</td>
+</tr>
+<tr>
+<td>Genre Diversity</td><td>High</td><td>High</td><td>High</td><td>Wide genre distribution</td>
+</tr>
+<tr>
+<td>Group Avg (Regional)</td><td>~165–240</td><td>~119–234</td><td>~271</td><td>Regional variability seen</td>
+</tr>
+<tr>
+<td>Top Outliers (Players)</td><td>32k+ games</td><td>13k+ games</td><td>9k+ games</td><td>Collector behavior</td>
+</tr>
+</table>
+
+<h3>Supporting Visualizations:</h3>
+<img src="../images/avg_games_per_player.png" alt="Average Games per Player">
+<img src="../images/max_games_per_player.png" alt="Max Games per Player">
+
+<hr>
+
+<h2>5. Findings & Implications</h2>
+<p>Regions like USA and Brazil show strong gaming culture. Steam users show high indie/freemium uptake. Xbox players present high monetization potential. PlayStation has strong geo-targeting opportunities.</p>
+
+<h3>Key Recommendations:</h3>
+<ul>
+<li>Steam – Leverage long-tail strategies</li>
+<li>PlayStation – Geo-target marketing in Brazil and UK</li>
+<li>Xbox – Focus on premium engagement strategies</li>
+</ul>
+
+<hr>
+
+<h2>6. Challenges & Solutions</h2>
+
+<table>
+<tr>
+<th>Problem</th><th>Solution</th>
+</tr>
+<tr>
+<td>Missing metadata (Xbox)</td><td>Synthetic groupings (ID modulo 3)</td>
+</tr>
+<tr>
+<td>Null values in genre/language</td><td><code>.fillna()</code> or drop strategy</td>
+</tr>
+<tr>
+<td>Schema inconsistencies</td><td>Standardized using <code>.withColumn()</code> and renaming</td>
+</tr>
+<tr>
+<td>Heavy window operations</td><td>Used <code>.partitionBy()</code> to optimize performance</td>
+</tr>
+</table>
+
+---
+
+<h2>7. Conclusion</h2>
+<p>This project successfully analyzed large-scale gaming data across platforms using PySpark. We demonstrated data engineering, aggregation, and comparative behavioral insights. Despite metadata gaps and schema inconsistencies, major conclusions on platform dynamics and player engagement were achieved.</p>
+
+<h3>Future Work:</h3>
+<ul>
+<li>Integrate playtime and achievement scores</li>
+<li>Sentiment analysis on player reviews</li>
+<li>Trend detection based on release dates</li>
+</ul>
+
+---
+
+</body>
+</html>
